@@ -1,0 +1,11 @@
+.row {
+	display: flex;
+}
+
+.col {
+	width: 100%;
+
+	&:first-child {
+		width: 35%;
+	}
+}

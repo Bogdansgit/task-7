@@ -1,0 +1,57 @@
+.popup {
+	position: absolute;
+	top: 200px;
+	right: 200px;
+	padding: 50px;
+	background-color: rgb(108, 108, 108);
+	border-radius: 15px;
+	min-width: 400px;
+
+	form {
+		display: flex;
+		flex-direction: column;
+	}
+
+	input,
+	textarea {
+		height: 40px;
+		width: 200px;
+		margin: 0 15px 15px;
+	}
+
+	input,
+	textarea,
+	button {
+		padding: 10px 10px 10px 15px;
+		margin: 0 15px 15px;
+		color: #FFF;
+		background: rgba(48, 48, 51, 0.7);
+		border-radius: 10px;
+		border: 1px solid rgba(48, 48, 51, 0.7);
+
+		&::placeholder {
+			font-weight: 300;
+			font-size: 12px;
+			line-height: 23px;
+			color: #FFFFFF;
+		}
+	}
+
+	button {
+		width: 150px;
+		font-weight: 700;
+
+		&:hover {
+			background: #4a4a50;
+			cursor: pointer;
+		}
+	}
+}
+
+.close-btn {
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	border: none;
+	cursor: pointer;
+}

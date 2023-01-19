@@ -1,0 +1,12 @@
+.navItem {
+	padding: 0 10px;
+}
+
+.navLink {
+	text-decoration: none;
+	color: #fff;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

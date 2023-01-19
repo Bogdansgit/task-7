@@ -1,0 +1,12 @@
+.single-post {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	max-height: 100vh;
+
+	img {
+		max-height: 400px;
+		object-fit: contain;
+	}
+}

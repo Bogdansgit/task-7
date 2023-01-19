@@ -1,0 +1,25 @@
+.button {
+	color: #fff;
+	padding: 10px 20px;
+	background-color: #5458F7;
+	border: none;
+	border-radius: 25px;
+	font-size: 13px;
+	font-weight: 600;
+	text-align: center;
+	text-decoration: none;
+	border: 1px solid #5458F7;
+	transition: all 0.5s;
+	cursor: pointer;
+	
+	&:hover {
+		border: 1px solid #5458F7;
+		background-color: white;
+		color: #5458F7;
+	}
+	
+	svg {
+		margin-left: 15px;
+		color: #5458F7;
+	}
+}

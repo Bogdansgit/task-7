@@ -1,0 +1,13 @@
+.horizontal {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	list-style: none;
+}
+
+.vertical {
+	display: flex;
+	align-items: center;
+	list-style: none;
+	flex-direction: column;
+}

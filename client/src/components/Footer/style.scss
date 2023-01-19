@@ -1,0 +1,30 @@
+.footer-content {
+	display: flex;
+	justify-content: space-between;
+	font-weight: normal;
+
+	&__col:first-child {
+		max-width: 400px;
+	}
+
+	&__col:last-child {
+		display: flex;
+	}
+}
+
+.footer-items {
+	padding: 0 20px;
+	text-align: center;
+
+	ul {
+		padding: 0;
+	}
+
+	li {
+		padding: 5px;
+	}
+}
+
+.logo {
+	height: 60px;
+}
