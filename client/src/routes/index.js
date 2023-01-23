@@ -15,9 +15,11 @@ import Posts from "../pages/Posts";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import Profile from "../pages/Profile/Profile";
 import Registration from "../pages/Registration/Registration";
+import Settings from "../pages/Settings/Settings";
 import Tasks from "../pages/Tasks";
 import CheckUserAuth from "./CheckUserAuth";
 import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
 
 function Router() {
   return (
@@ -33,10 +35,13 @@ function Router() {
           <Route path="/registration" element={<Registration />} />
         </Route>
 
-        <Route element={<PrivateLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/tasks" element={<Tasks />} />
-          <Route path="/dashboard/posts" element={<Posts />} />
+        <Route element={<PublicRoute />}>
+          <Route element={<PrivateLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/tasks" element={<Tasks />} />
+            <Route path="/dashboard/posts" element={<Posts />} />
+            <Route path="/dashboard/settings" element={<Settings />} />
+          </Route>
         </Route>
         <Route element={<CheckUserAuth />}>
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

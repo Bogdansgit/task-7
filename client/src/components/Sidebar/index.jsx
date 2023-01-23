@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import "./style.scss";
 import NavItem from "../NavItem";
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { AuthContext } from "../../Context/auth";
 
 const Sidebar = () => {
@@ -21,6 +22,7 @@ const Sidebar = () => {
             <NavItem to='/dashboard'>Dashboard</NavItem>
             <NavItem to='/dashboard/tasks'>Tasks</NavItem>
             <NavItem to='/dashboard/posts'>Posts</NavItem>
+            <NavItem to='/dashboard/settings'><SettingsIcon fontSize="small" />Settings</NavItem>
         </div>
     );
 }

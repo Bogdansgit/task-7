@@ -34,6 +34,13 @@ function Registration () {
 		).json();
 		if (result) {
 			console.log(result);
+			setUserData({
+				email: '',
+				password: '',
+				confirmPassword: '',
+				firstName: '',
+				lastName: '',
+			});
 		} else {
 			console.log('error');
 		}

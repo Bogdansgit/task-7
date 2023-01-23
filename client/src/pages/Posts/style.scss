@@ -10,9 +10,15 @@
 
 .add,
 .remove,
-.edit {
+.edit,
+.add-likes,
+.remove-likes {
 	display: inline-block;
 	cursor: pointer;
+}
+
+.add-likes {
+	font-weight: 700;
 }
 
 .icons-box {
@@ -38,6 +44,7 @@
 	}
 
 	p {
+		display: inline-block;
 		margin: 0;
 	}
 
@@ -50,5 +57,10 @@
 		align-items: center;
 		justify-content: space-between;
 		border-radius: 5px;
+
+		.post-body {
+			margin-left: 20px;
+			font-style: italic;
+		}
 	}
 }

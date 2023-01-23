@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import DataTable from 'react-data-table-component';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 
 import "./style.scss";
-// import { postsData } from "../../api";
 import { ReactComponent as AddPostIcon } from "../../images/addPost.svg";
 import Popup from "../../components/Popup";
 import notify from "../../utils/notification.helpers";
@@ -17,10 +17,11 @@ function Posts() {
 		body: "",
 		name: "",
 	});
-	// const [posts, setPosts] = useState([...postsData]);
-	const [editPostId, setEditPostId] = useState('');
-	const [editPostTitle, setEditPostTitle] = useState('');
-	const [editPostDescription, setEditPostDescription] = useState('');
+	const [editPost, setEditPost] = useState({
+		title: "",
+		body: "",
+		name: "",
+	});
 	const [popup, setPopup] = useState(false);
 	const [editPopup, setEditPopup] = useState(false);
 
@@ -33,12 +34,6 @@ function Posts() {
 	const handleAddPosts = (e) => {
 		e.preventDefault();
 		setPopup(true);
-	}
-	
-	const removePosts = (e, id) => {
-		e.preventDefault();
-		setPosts(posts.filter(post => post.id !== id));
-		notify('Post succesfully deleted!');
 	}
 
 	const handleSubmit = (e) => {
@@ -56,100 +51,113 @@ function Posts() {
 
 		notify('🦄 Post succesfully created!');
 		setPopup(false);
+		setNewPost({
+			title: "",
+			body: "",
+			name: "",
+		})
 	}
 
-	const handleEditedPostSubmit = (e, title, description) => {
+	const removePosts = (e, id) => {
 		e.preventDefault();
+		
+		fetch(`http://localhost:5010/posts/${id}`, {
+			method: "DELETE",
+		})
 
-		setPosts([ ...posts.filter(post => post.id !== editPostId 
-			), {id: editPostId, title, description}
-		]);
-
-		setEditPopup(false);
-		notify('🦄 Post succesfully edited!');
+		fetch("http://localhost:5010/posts")
+			.then((res) => res.json())
+			.then((data) => setPosts(data.data));
+		
+		notify('Post succesfully deleted!');
 	}
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setNewPost({ ...newPost, [name]: value })
 	}
-	// const handleChange = (e) => {
-	// 	const { name, value } = e.target;
-		
-
-	// 	if (name === 'title') {setEditPostTitle(value)}
-	// 	if (name === 'desc') {setEditPostDescription(value)}
-	// }
-
-	const editPosts = (e, id, title, description) => {
+	
+	const editPosts = (e, post) => {
 		e.preventDefault();
-
 		setEditPopup(true);
-		setEditPostTitle(title);
-		setEditPostDescription(description);
-		setEditPostId(id);
+		setEditPost(post);
 	}
 
-	const columns = [
-		{
-			name: 'ID',
-			selector: row => row._id,
-			sortable: true,
-		},
-		{
-			name: 'Title',
-			selector: row => row.title,
-			sortable: true,
-		},
-		{
-			name: 'Body',
-			selector: row => row.body,
-			sortable: true,
-		},
-		{
-			name: 'Name',
-			selector: row => row.name,
-			sortable: true,
-		},
-		{
-			name: 'createdAt',
-			selector: row => row.createdAt,
-			sortable: true,
-		},
-		{
-			name: 'Likes',
-			selector: row => row.likes,
-			sortable: true,
-		},
-	];
+	const handleEditPostChange = (e) => {
+		const { name, value } = e.target;
+		setEditPost({ ...editPost, [name]: value })
+	}
+
+	const handleEditedPostSubmit = (e, id) => {
+		e.preventDefault();
+		fetch(`http://localhost:5010/posts/${id}`, {
+			method: "PATCH",
+			headers: {
+				"Content-Type" : "application/json",
+			},
+			body: JSON.stringify(editPost),
+		})
+
+		fetch("http://localhost:5010/posts")
+			.then((res) => res.json())
+			.then((data) => setPosts(data.data));
+
+			setEditPost({
+				title: "",
+				body: "",
+				name: "",
+			})
+			
+		notify('🦄 Post succesfully updated!');
+		setEditPopup(false);
+	}
+
+	const addLike = (e, post) => {
+		fetch(`http://localhost:5010/posts/${post._id}/like`, {
+			method: "PUT",
+		})
+
+		fetch("http://localhost:5010/posts")
+			.then((res) => res.json())
+			.then((data) => setPosts(data.data));
+		}
+		
+	const removeLike = (e, post) => {
+		fetch(`http://localhost:5010/posts/${post._id}/like`, {
+			method: "DELETE",
+		})
+
+		fetch("http://localhost:5010/posts")
+			.then((res) => res.json())
+			.then((data) => setPosts(data.data));
+
+	}
 
 	return (
 		<div className="posts">
 			<div className="posts__top-line">
 				<h3>Posts</h3>
 				<div className="add" onClick={handleAddPosts}><AddPostIcon /></div>
-
 			</div>
-				<DataTable
-					columns={columns}
-					data={posts}
-				/>
-			{/* <ul className="posts-list">
+			<ul className="posts-list">
 				{
 					posts.map(post => (
-						<li key={post.id}>
+						<li key={post._id}>
 							<div className="posts-box">
 								<h4 >{post.title}</h4>
-								<p>{post.description}</p>
+								<p>{post.name}</p>
+								<p className="post-body">{post.body}</p>
 							</div>
 							<div className="icons-box">
-								<div className="edit" onClick={(e) => editPosts(e, post.id, post.title, post.description)}><EditIcon /></div>
-								<div className="remove" onClick={(e) => removePosts(e, post.id)}><DeleteIcon /></div>
+								<div className="add-likes" onClick={(e) => addLike(e, post)}><ThumbUpOffAltIcon />{post.likes}</div>
+								<div className="remove-likes" onClick={(e) => removeLike(e, post)}><ThumbDownAltIcon /></div>
+								<div className="edit" onClick={(e) => editPosts(e, post)}><EditIcon /></div>
+								<div className="remove" onClick={(e) => removePosts(e, post._id)}><DeleteIcon /></div>
 							</div>
 						</li>
 					))
 				}
-			</ul> */}
+			</ul>
 			<Popup trigger={popup} setTrigger={setPopup}>
 				<form onSubmit={handleSubmit}>
 					<input type="text" placeholder="Post Title" name={'title'} value={newPost.title} onChange={handleChange} />
@@ -159,9 +167,10 @@ function Posts() {
 				</form>
 			</Popup>
 			<Popup trigger={editPopup} setTrigger={setEditPopup}>
-				<form onSubmit={(e) => handleEditedPostSubmit( e, editPostTitle, editPostDescription)}>
-					<input onChange={handleChange} type="text" placeholder="Post Title" name={'title'} value={editPostTitle} />
-					<input onChange={handleChange} type="text" placeholder="Post description" name={'desc'} value={editPostDescription} />
+				<form onSubmit={(e) => handleEditedPostSubmit(e, editPost._id)}>
+					<input type="text" placeholder="Post Title" name={'title'} value={editPost.title} onChange={handleEditPostChange} />
+					<textarea placeholder="Body" name={'body'} value={editPost.body} onChange={handleEditPostChange} />
+					<input type="text" placeholder="name" name={'name'} value={editPost.name} onChange={handleEditPostChange} />
 					<button type='submit'>Edit post</button>
 				</form>
 			</Popup>

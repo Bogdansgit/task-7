@@ -14,8 +14,8 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import Popup from '../Popup';
 
 function Header () {
-	const context = useContext(AuthContext);
-	const user = context.user;
+	const { user, logout } = useContext(AuthContext);
+
 
 	const [popup, setPopup] = useState(false);
 
@@ -48,10 +48,10 @@ function Header () {
 												</div>
 												<p>{`id: ${user.id}`}</p>
 												<p>{`email: ${user.email}`}</p>
-												<button onClick={() => context.logout()}>Logout</button>
+												<button onClick={logout}>Logout</button>
 											</Popup>
 										</div>
-										<button onClick={() => context.logout()}><LogoutIcon fontSize="small" /></button>
+										<button onClick={logout}><LogoutIcon fontSize="small" /></button>
 									</div>
 								) : (
 									<div>
